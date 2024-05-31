@@ -11,7 +11,7 @@ import Home from '../pages/home';
 // import New from '../pages/New';
 // import Notification from '../pages/Notification';
 // import Profile from '../pages/Profile';
-// import Search from '../pages/Search';
+import Search from '../pages/search';
 // import ButtonNew from '../pages/components/ButtonNew';
 // //Aqui faz a parte do Notification
 // import CadastroCasa from '../pages/Notification/casa/index';
@@ -83,7 +83,6 @@ function HomeScreen() {
             <Entypo name="home" size={size} color={white} />
           )
         }} />
-      {/*
       <Tab.Screen
         name="Projetos"
         component={Search}
@@ -92,7 +91,8 @@ function HomeScreen() {
             <Feather name="briefcase" size={size} color={white} />
           )
         }}
-      />
+        />
+        {/*
 
       <Tab.Screen
         name="Novo"

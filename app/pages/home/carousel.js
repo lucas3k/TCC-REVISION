@@ -1,5 +1,5 @@
 import { View, StyleSheet, Image, TouchableOpacity } from 'react-native';
-// import Carousel from 'react-native-snap-carousel';
+import Carousel from 'react-native-snap-carousel';
 
 const SLIDER_WIDTH = 300;
 const ITEM_WIDTH = SLIDER_WIDTH * 0.8;
@@ -38,12 +38,12 @@ const CarouselScreen = () => {
 
   return (
     <View style={styles.container}>
-      {/* <Carousel
+      <Carousel
         data={carouselItems}
         renderItem={renderItem}
         sliderWidth={SLIDER_WIDTH}
         itemWidth={ITEM_WIDTH}
-      /> */}
+      />
     </View>
   );
 };
