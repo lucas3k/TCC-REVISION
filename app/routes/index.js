@@ -8,22 +8,24 @@ import Cadastro from '../pages/cadastro';
 
 // //Pagina de dentro
 import Home from '../pages/home';
-// import New from '../pages/New';
-// import Notification from '../pages/Notification';
-// import Profile from '../pages/Profile';
+import New from '../pages/new';
+import Notification from '../pages/notification';
+import Profile from '../pages/profile';
 import Search from '../pages/search';
-// import ButtonNew from '../pages/components/ButtonNew';
+import ButtonNew from '../components/ButtonNew';
+
 // //Aqui faz a parte do Notification
-// import CadastroCasa from '../pages/Notification/casa/index';
-// import CadastroAlimentacao from '../pages/Notification/alimentacao/index';
-// import CadastroTransporte from '../pages/Notification/transporte/index';
-// import CadastrosaudeBeleza from '../pages/Notification/saudeBeleza/index';
-// import CadastroEducacao from '../pages/Notification/educacao/index';
-// import CadastroLazer from '../pages/Notification/lazer/index';
+import CadastroCasa from '../pages/notification/casa';
+import CadastroAlimentacao from '../pages/notification/alimentacao';
+import CadastroTransporte from '../pages/notification/transporte';
+import CadastrosaudeBeleza from '../pages/notification/saudeBeleza';
+import CadastroEducacao from '../pages/notification/educacao';
+import CadastroLazer from '../pages/notification/lazer';
+
 // //aqui faz a parte do NEW
-// import QuizCasa from '../pages/New/NewCasa/index';
-// import QuizCar from '../pages/New/NewCar';
-// import QuizViagem from '../pages/New/NewViagem';
+import QuizCasa from '../pages/new/NewCasa';
+import QuizViagem from '../pages/new/NewViagem';
+import QuizCar from '../pages/new/NewCar';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -32,28 +34,18 @@ function MainStack() {
   return (
     <Stack.Navigator>
       <Stack.Screen name="Welcome" component={Welcome} options={{ headerShown: false }} />
-
       <Stack.Screen name="Signin" component={Signin} options={{ headerShown: false }} />
-
       <Stack.Screen name="Cadastro" component={Cadastro} options={{ headerShown: false }} />
-
       <Stack.Screen name="Dash" component={HomeScreen} options={{ headerShown: false }} />
-
-      {/* <Stack.Screen name="CadastroCasa" component={CadastroCasa} options={{ headerShown: false }} /> */}
-
-      {/* <Stack.Screen name="CadastroAlimentacao" component={CadastroAlimentacao} options={{ headerShown: false }} /> */}
-
-      {/* <Stack.Screen name="CadastroTransporte" component={CadastroTransporte} options={{ headerShown: false }} /> */}
-
-      {/* <Stack.Screen name="CadastrosaudeBeleza" component={CadastrosaudeBeleza} options={{ headerShown: false }} /> */}
-
-      {/* <Stack.Screen name="CadastroEducacao" component={CadastroEducacao} options={{ headerShown: false }} /> */}
-
-      {/* <Stack.Screen name="CadastroLazer" component={CadastroLazer} options={{ headerShown: false }} /> */}
-
-      {/* <Stack.Screen name="QuizCasa" component={QuizCasa} options={{ headerShown: false }} /> */}
-      {/* <Stack.Screen name="QuizCar" component={QuizCar} options={{ headerShown: false }} /> */}
-      {/* <Stack.Screen name="QuizViagem" component={QuizViagem} options={{ headerShown: false }} /> */}
+      <Stack.Screen name="CadastroCasa" component={CadastroCasa} options={{ headerShown: false }} />
+      <Stack.Screen name="CadastroAlimentacao" component={CadastroAlimentacao} options={{ headerShown: false }} />
+      <Stack.Screen name="CadastroTransporte" component={CadastroTransporte} options={{ headerShown: false }} />
+      <Stack.Screen name="CadastrosaudeBeleza" component={CadastrosaudeBeleza} options={{ headerShown: false }} />
+      <Stack.Screen name="CadastroEducacao" component={CadastroEducacao} options={{ headerShown: false }} />
+      <Stack.Screen name="CadastroLazer" component={CadastroLazer} options={{ headerShown: false }} />
+      <Stack.Screen name="QuizCasa" component={QuizCasa} options={{ headerShown: false }} />
+      <Stack.Screen name="QuizViagem" component={QuizViagem} options={{ headerShown: false }} />
+      <Stack.Screen name="QuizCar" component={QuizCar} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
 }
@@ -82,7 +74,8 @@ function HomeScreen() {
           tabBarIcon: ({ size, white }) => (
             <Entypo name="home" size={size} color={white} />
           )
-        }} />
+        }}
+      />
       <Tab.Screen
         name="Projetos"
         component={Search}
@@ -91,9 +84,7 @@ function HomeScreen() {
             <Feather name="briefcase" size={size} color={white} />
           )
         }}
-        />
-        {/*
-
+      />
       <Tab.Screen
         name="Novo"
         component={New}
@@ -104,7 +95,6 @@ function HomeScreen() {
           )
         }}
       />
-
       <Tab.Screen
         name="Orçamento"
         component={Notification}
@@ -114,7 +104,6 @@ function HomeScreen() {
           )
         }}
       />
-
       <Tab.Screen
         name="Profile"
         component={Profile}
@@ -123,7 +112,7 @@ function HomeScreen() {
             <Feather name="user" size={size} color={white} />
           )
         }}
-      /> */}
+      />
     </Tab.Navigator>
   );
 }
