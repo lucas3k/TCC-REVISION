@@ -3,6 +3,7 @@ import { useNavigation } from "@react-navigation/native";
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert } from "react-native";
 import * as Animatable from "react-native-animatable";
 import { getUserByEmail } from "../../database/config";
+import { setObjectLocalStorage } from "../../services/localstorage";
 
 export default function Signin() {
   const navigation = useNavigation();
@@ -22,6 +23,8 @@ export default function Signin() {
         Alert.alert("Usuário Inválido", "Usuário ou senha inválido.");
         return;
       }
+
+      setObjectLocalStorage("usuario", usuario);
 
       navigation.navigate("Dash");
 
@@ -43,6 +46,7 @@ export default function Signin() {
           style={styles.input}
           value={email}
           onChangeText={setEmail}
+          keyboardType="email-address"
         />
 
         <Text style={styles.title}>Senha</Text>
@@ -91,6 +95,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 20,
+    color: '#DCDCDC',
     marginTop: 28,
   },
   input: {
@@ -98,6 +103,7 @@ const styles = StyleSheet.create({
     height: 40,
     marginBottom: 12,
     fontSize: 16,
+    color: "#BABABA",
   },
   button: {
     backgroundColor: "#38a69d",

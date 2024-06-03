@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useNavigation } from '@react-navigation/native';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert } from 'react-native';
-
+import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import * as Animatable from 'react-native-animatable'
 import { createUser } from "../../database/config";
 
@@ -48,7 +47,7 @@ export default function Cadastro() {
       const salvarUser = await createUser(email, password)
 
       if (!salvarUser) {
-        setEmailError('Erro ao salvar usuário');
+        setEmailError('Usuário já cadastrado');
         return
       }
 
@@ -72,6 +71,7 @@ export default function Cadastro() {
           style={styles.input}
           value={email}
           onChangeText={text => setEmail(text)}
+          keyboardType="email-address"
         />
         {emailError ? <Text style={styles.error}>{emailError}</Text> : null}
 
@@ -137,6 +137,7 @@ const styles = StyleSheet.create({
     height: 40,
     marginBottom: 12,
     fontSize: 16,
+    color: "#BABABA",
   },
   button: {
     backgroundColor: '#38a69d',

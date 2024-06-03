@@ -1,8 +1,11 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import * as Animatable from 'react-native-animatable' //importação da animação
 import { useNavigation } from '@react-navigation/native' //começamos a traçar a rota para navegação de pagina
+import { removeLocalStorage } from '../../services/localstorage';
 
 export default function Welcome() {
+  removeLocalStorage('usuario'); //removendo o usuário do local storage
+
   const navigation = useNavigation();
 
   return (

@@ -4,6 +4,7 @@ import { FontAwesome } from '@expo/vector-icons'; // Importe o FontAwesome
 import * as ImagePicker from 'expo-image-picker';
 import { useNavigation } from '@react-navigation/native'; // Importe o hook useNavigation
 import MonthlyExpensesChart from './MonthlyExpensesChart';
+import { removeLocalStorage } from '../../services/localstorage';
 
 export default function Profile() {
   const [userImage, setUserImage] = useState(null);
@@ -65,6 +66,7 @@ export default function Profile() {
   const handleSair = () => {
     // Navegue para a tela de login
     navigation.navigate('Welcome');
+    removeLocalStorage('usuario'); // Remova o usuário logado do armazenamento local
   };
 
   return (

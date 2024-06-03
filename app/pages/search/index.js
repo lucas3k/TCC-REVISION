@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import { View, StyleSheet, TouchableOpacity, Image, Text, Alert, TextInput, ScrollView, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
-import { getAllPathImages, saveImagePaths } from '../../database/config';
+import { getImagesByUserId, saveImagePaths } from '../../database/config';
+import { getObjectLocalStorage } from '../../services/localstorage';
 
 export default function Search() {
   const [images, setImages] = useState([null, null, null, null]);
@@ -12,13 +13,28 @@ export default function Search() {
   useEffect(() => {
     const fetchProjectImages = async () => {
       try {
-        const allImages = await getAllPathImages()
-        allImages.forEach((image) => {
-          const index = image.project_id - 1;
-          const newImages = [...images];
-          newImages[index] = image.path;
-          setImages(newImages);
-        })
+        const usuario = await getObjectLocalStorage('usuario');
+        const userId = usuario.id;
+
+        const allImages = await getImagesByUserId(userId);
+
+        console.log(allImages)
+
+        if (allImages.length) {
+          const updatedImages = new Array(4).fill(null);
+          const updatedNames = [...names];
+
+          allImages.forEach((image) => {
+            const index = image.project_id - 1;
+            if (index >= 0 && index < updatedImages.length) {
+              updatedImages[index] = image.path;
+              updatedNames[index] = image.project_name || `Nome ${index + 1}`;
+            }
+          });
+
+          setImages(updatedImages);
+          setNames(updatedNames);
+        }
       } catch (error) {
         console.error('Failed to fetch project images:', error);
       }
@@ -35,13 +51,16 @@ export default function Search() {
       });
 
       if (!result.cancelled) {
+        const usuario = await getObjectLocalStorage('usuario');
+        const userId = usuario.id;
+
         const newImages = [...images];
         newImages[index] = result.assets[0].uri;
         setImages(newImages);
 
-        // Salvando as imagens no banco de dados
-        const projectId = index + 1; // Considerando que os IDs dos projetos são 1, 2, 3, 4
-        await saveImagePaths(projectId, [result.assets[0].uri]);
+        const projectName = names[index];
+        const projectId = index + 1;
+        await saveImagePaths(projectId, userId, [result.assets[0].uri], projectName);
       }
     } catch (error) {
       Alert.alert('Erro ao selecionar imagem', error.message);
@@ -50,19 +69,29 @@ export default function Search() {
 
   const handleEditName = (index) => setEditingIndex(index);
 
-  const handleNameChange = (index, newName) => {
+  const handleNameChange = async (index, newName) => {
     const newNames = [...names];
     newNames[index] = newName;
     setNames(newNames);
+
     if (newName.includes('\n')) {
       setEditingIndex(null);
+    }
+
+    try {
+      const usuario = await getObjectLocalStorage('usuario');
+      const userId = usuario.id;
+      const projectId = index + 1;
+      await saveImagePaths(projectId, userId, [images[index]], newName);
+    } catch (error) {
+      console.error('Failed to save project name:', error);
     }
   };
 
   const showTips = () => {
     Alert.alert(
       'Dicas',
-      'Aqui você pode visualizar os projetos que criou em "Novos Projetos", pode adicionar fotos maravilhosas apenas clicando no circulo e para visualizar o projeto basta clicar no botão visualizar',
+      'Aqui você pode visualizar os projetos que criou em "Novos Projetos", pode adicionar fotos maravilhosas apenas clicando no círculo e para visualizar o projeto basta clicar no botão visualizar',
       [
         {
           text: 'OK',
