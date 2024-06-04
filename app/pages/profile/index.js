@@ -113,7 +113,7 @@ export default function Profile() {
 
           {/* Seção de despesas - DEVERÁ SER MODIFICADA PARA APARECER O TOTAL DE GASTOS LA DE NEW */}
           <View style={styles.expensesBox}>
-            <Text style={styles.expensesText}>- R$1234,56</Text>
+            <Text style={styles.expensesText}>R$1234,56</Text>
             <Text style={styles.monthText}>{currentMonth}</Text>
           </View>
 

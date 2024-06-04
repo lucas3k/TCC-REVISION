@@ -32,6 +32,11 @@ const dropTables = async () => {
   }
 };
 
+// excluir tabelas
+// dropTables().catch(error => {
+//   console.error('Falha ao deletar tabelas:', error);
+// });
+
 // Função para inicializar o banco de dados
 export async function initializeDatabase() {
   const db = await openDatabase();

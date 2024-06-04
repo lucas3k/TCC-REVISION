@@ -1,50 +1,46 @@
-# Welcome to your Expo app 👋
+# TCC Prático: Sistema de Contabilidade para Gastos com Construções ou Lazer
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Este projeto envolve o desenvolvimento de um sistema contábil para monitorar gastos relacionados a construções ou atividades de lazer.
 
-## Get started
+## Como Executar o Projeto
 
-1. Install dependencies
+### Pré-requisitos
 
-   ```bash
-   npm install
+1. **Git**: Certifique-se de ter o [Git](https://www.git-scm.com/downloads) instalado em sua máquina.
+2. **Node.js**: Instale o [Node.js](https://nodejs.org/en).
+
+### Passo a Passo
+
+1. **Clone o Repositório**
+
+   Abra o terminal e execute o seguinte comando para clonar o repositório:
+
+   ```sh
+   git clone https://github.com/lucas3k/TCC-REVISION.git tcc
    ```
 
-2. Start the app
+2. **Navegue até o Diretório do Projeto**
 
-   ```bash
-    npx expo start
+   Use o comando abaixo para navegar até o diretório onde você clonou o projeto:
+
+   ```sh
+   cd ~/caminho-ate-o-projeto/tcc
    ```
 
-In the output, you'll find options to open the app in a
+3. **Instale as Dependências e Execute o Projeto**
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+   Dentro do diretório do projeto, execute o comando:
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+   ```sh
+   npm i && npm run start
+   ```
 
-## Get a fresh project
+   Este comando instalará todas as dependências do projeto e o executará em modo de desenvolvimento.
 
-When you're ready, run:
+4. **Escaneie o QR Code**
 
-```bash
-npm run reset-project
-```
+   Após a execução do projeto, escaneie o QR Code gerado usando seu celular com o aplicativo [Expo](https://expo.dev/) instalado.
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+---
 
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Siga estes passos e você estará pronto para utilizar o sistema contábil desenvolvido.
