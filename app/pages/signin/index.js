@@ -3,9 +3,15 @@ import { useNavigation } from "@react-navigation/native";
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert } from "react-native";
 import * as Animatable from "react-native-animatable";
 import { getUserByEmail } from "../../database/config";
-import { setObjectLocalStorage } from "../../services/localstorage";
+import { removeLocalStorage, setObjectLocalStorage } from "../../services/localstorage";
+
+const logout = async () => {
+  await removeLocalStorage("usuario");
+};
 
 export default function Signin() {
+  logout();
+
   const navigation = useNavigation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

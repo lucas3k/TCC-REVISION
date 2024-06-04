@@ -1,29 +1,100 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity,ScrollView,Alert,TouchableWithoutFeedback, Keyboard} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import { getObjectLocalStorage, setObjectLocalStorage } from '../../../services/localstorage';
 
 export default function QuizCasa() {
-  const [areia, setAreia] = useState('');
-  const [pedra, setPedra] = useState('');
-  const [cimento, setCimento] = useState('');
-  const [ferro, setFerro] = useState('');
-  const [argamassa, setArgamassa] = useState('');
-  const [tijolo, setTijolo] = useState('');
-  const [madeira, setMadeira] = useState('');
-  const [telha, setTelha] = useState('');
-  const [vidro, setVidro] = useState('');
-  const [luz, setLuz] = useState('');
-  const [piso, setPiso] = useState('');
-  const [acabamento, setAcabamento] = useState('');
-  const [pintura, setPintura] = useState('');
-  const [mao, setMao] = useState('');
-  const [outro, setOutro] = useState('');
+  const [areia, setAreia] = useState(0);
+  const [pedra, setPedra] = useState(0);
+  const [cimento, setCimento] = useState(0);
+  const [ferro, setFerro] = useState(0);
+  const [argamassa, setArgamassa] = useState(0);
+  const [tijolo, setTijolo] = useState(0);
+  const [madeira, setMadeira] = useState(0);
+  const [telha, setTelha] = useState(0);
+  const [vidro, setVidro] = useState(0);
+  const [luz, setLuz] = useState(0);
+  const [piso, setPiso] = useState(0);
+  const [acabamento, setAcabamento] = useState(0);
+  const [pintura, setPintura] = useState(0);
+  const [mao, setMao] = useState(0);
+  const [outro, setOutro] = useState(0);
 
-  const navigation = useNavigation();
+  const navigation = useNavigation()
+
+  useEffect(() => {
+    const fetchLocalHost = async () => {
+      try {
+        const usuario = await getObjectLocalStorage('usuario');
+        const userId = usuario.id;
+        const userEmail = usuario.email;
+        const allValues = await getObjectLocalStorage(`${userEmail}${userId}`);
+
+        if (allValues !== null) {
+          setAreia(Number(allValues.areia));
+          setPedra(Number(allValues.pedra));
+          setCimento(Number(allValues.cimento));
+          setFerro(Number(allValues.ferro));
+          setArgamassa(Number(allValues.argamassa));
+          setTijolo(Number(allValues.tijolo));
+          setMadeira(Number(allValues.madeira));
+          setTelha(Number(allValues.telha));
+          setVidro(Number(allValues.vidro));
+          setLuz(Number(allValues.luz));
+          setPiso(Number(allValues.piso));
+          setAcabamento(Number(allValues.acabamento));
+          setPintura(Number(allValues.pintura));
+          setMao(Number(allValues.mao));
+          setOutro(Number(allValues.outro));
+        }
+      } catch (error) {
+        console.error('Erro ao buscar dados:', error);
+      }
+    };
+
+    fetchLocalHost();
+  }, []);
+
+  const salvarLocalHost = async (total) => {
+    try {
+      const usuario = await getObjectLocalStorage('usuario');
+      const userId = usuario.id;
+      const userEmail = usuario.email;
+
+      const gastos = {
+        areia,
+        pedra,
+        cimento,
+        ferro,
+        argamassa,
+        tijolo,
+        madeira,
+        telha,
+        vidro,
+        luz,
+        piso,
+        acabamento,
+        pintura,
+        mao,
+        outro,
+        total
+      };
+
+      await setObjectLocalStorage(`${userEmail}${userId}`, gastos);
+    } catch (error) {
+      console.error('Erro ao salvar dados:', error);
+    }
+  };
+
+  const salvarOrcamento = () => {
+    const total = calcularTotal();
+    salvarLocalHost(total);
+    Alert.alert('Orçamento salvo com sucesso!');
+  };
 
   const calcularTotal = () => {
     const valores = [areia,pedra,cimento,ferro,argamassa,tijolo,madeira,telha,vidro,luz,piso,acabamento,pintura,mao,outro];
-    const total = valores.reduce((acc, valor) => acc + parseFloat(valor || 0), 0);
+    const total = valores.reduce((acc, valor) => acc + valor || 0, 0);
     return total.toFixed(2);
   };
 
@@ -53,111 +124,110 @@ export default function QuizCasa() {
           </TouchableOpacity>
 
           <Text style={styles.titulo}>Controle de Orçamento de Obra</Text>
-
               {/* Campos de entrada para os gastos */}
               <TextInput
                 style={styles.input}
                 placeholder="Areia"
-                value={areia}
-                onChangeText={(text) => setAreia(text)}
+                value={`${areia ? areia : ''}`}
+                onChangeText={(text) => setAreia(Number(text))}
                 keyboardType="numeric"
               />
               <TextInput
                 style={styles.input}
                 placeholder="Pedra"
-                value={pedra}
-                onChangeText={(text) => setPedra(text)}
+                value={`${pedra ? pedra : ''}`}
+                onChangeText={(text) => setPedra(Number(text))}
                 keyboardType="numeric"
               />
               <TextInput
                 style={styles.input}
                 placeholder="Cimento e Concreto"
-                value={cimento}
-                onChangeText={(text) => setCimento(text)}
+                value={`${cimento ? cimento : ''}`}
+                onChangeText={(text) => setCimento(Number(text))}
                 keyboardType="numeric"
               />
               <TextInput
                 style={styles.input}
                 placeholder="Ferro e Aço"
-                value={ferro}
-                onChangeText={(text) => setFerro(text)}
+                value={`${ferro ? ferro : ''}`}
+                onChangeText={(text) => setFerro(Number(text))}
                 keyboardType="numeric"
               />
               <TextInput
                 style={styles.input}
                 placeholder="Argamassa"
-                value={argamassa}
-                onChangeText={(text) => setArgamassa(text)}
+                value={`${argamassa ? argamassa : ''}`}
+                onChangeText={(text) => setArgamassa(Number(text))}
                 keyboardType="numeric"
               />
               <TextInput
                 style={styles.input}
                 placeholder="Tijolo"
-                value={tijolo}
-                onChangeText={(text) => setTijolo(text)}
+                value={`${tijolo ? tijolo : ''}`}
+                onChangeText={(text) => setTijolo(Number(text))}
                 keyboardType="numeric"
               />
               <TextInput
                 style={styles.input}
                 placeholder="Madeira"
-                value={madeira}
-                onChangeText={(text) => setMadeira(text)}
+                value={`${madeira ? madeira : ''}`}
+                onChangeText={(text) => setMadeira(Number(text))}
                 keyboardType="numeric"
               />
               <TextInput
                 style={styles.input}
                 placeholder="Telhado"
-                value={telha}
-                onChangeText={(text) => setTelha(text)}
+                value={`${telha ? telha : ''}`}
+                onChangeText={(text) => setTelha(Number(text))}
                 keyboardType="numeric"
               />
               <TextInput
                 style={styles.input}
                 placeholder="Vidro"
-                value={vidro}
-                onChangeText={(text) => setVidro(text)}
+                value={`${vidro ? vidro : ''}`}
+                onChangeText={(text) => setVidro(Number(text))}
                 keyboardType="numeric"
               />
               <TextInput
                 style={styles.input}
                 placeholder="Elétrica e Hidráulica"
-                value={luz}
-                onChangeText={(text) => setLuz(text)}
+                value={`${luz ? luz : ''}`}
+                onChangeText={(text) => setLuz(Number(text))}
                 keyboardType="numeric"
               />
               <TextInput
                 style={styles.input}
                 placeholder="Piso e Revestimento"
-                value={piso}
-                onChangeText={(text) => setPiso(text)}
+                value={`${piso ? piso : ''}`}
+                onChangeText={(text) => setPiso(Number(text))}
                 keyboardType="numeric"
               />
               <TextInput
                 style={styles.input}
                 placeholder="Acabamentos"
-                value={acabamento}
-                onChangeText={(text) => setAcabamento(text)}
+                value={`${acabamento ? acabamento : ''}`}
+                onChangeText={(text) => setAcabamento(Number(text))}
                 keyboardType="numeric"
               />
               <TextInput
                 style={styles.input}
                 placeholder="Pintura"
-                value={pintura}
-                onChangeText={(text) => setPintura(text)}
+                value={`${pintura ? pintura : ''}`}
+                onChangeText={(text) => setPintura(Number(text))}
                 keyboardType="numeric"
               />
               <TextInput
                 style={styles.input}
                 placeholder="Mão de Obra"
-                value={mao}
-                onChangeText={(text) => setMao(text)}
+                value={`${mao ? mao : ''}`}
+                onChangeText={(text) => setMao(Number(text))}
                 keyboardType="numeric"
               />
               <TextInput
                 style={styles.input}
                 placeholder="Outros"
-                value={outro}
-                onChangeText={(text) => setOutro(text)}
+                value={`${outro ? outro : ''}`}
+                onChangeText={(text) => setOutro(Number(text))}
                 keyboardType="numeric"
               />
 
@@ -165,7 +235,9 @@ export default function QuizCasa() {
               <Text style={styles.total}>Total de Gastos: R$ {calcularTotal()}</Text>
 
               {/* Botão para salvar os dados */}
-              <TouchableOpacity style={styles.botaoSalvar}>
+              <TouchableOpacity style={styles.botaoSalvar}
+                onPress={salvarOrcamento}
+              >
                 <Text style={styles.textoBotao}>Salvar</Text>
               </TouchableOpacity>
 
