@@ -32,7 +32,7 @@ export default function QuizCasa() {
         const usuario = await getObjectLocalStorage('usuario');
         const userId = usuario.id;
         const userEmail = usuario.email;
-        const allValues = await getObjectLocalStorage(`${userEmail}${userId}`);
+        const allValues = await getObjectLocalStorage(`${userEmail}${userId}casa`);
 
         if (allValues !== null) {
           setAreia(formatarValor(allValues.areia));
@@ -84,7 +84,7 @@ export default function QuizCasa() {
         total
       };
 
-      await setObjectLocalStorage(`${userEmail}${userId}`, gastos);
+      await setObjectLocalStorage(`${userEmail}${userId}casa`, gastos);
     } catch (error) {
       console.error('Erro ao salvar dados:', error);
     }
@@ -267,43 +267,53 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   input: {
-    height: 40,
+    height: 50,
+    width: '80%',
     borderColor: 'gray',
     borderWidth: 1,
-    borderRadius: 5,
-    width: 200,
-    marginBottom: 10,
+    marginBottom: 20,
     paddingHorizontal: 10,
+    fontSize: 18,
+    borderRadius: 10,
   },
   total: {
     fontSize: 18,
     fontWeight: 'bold',
-    marginTop: 20,
+    marginTop: 10,
+    marginBottom: 20,
   },
   botaoSalvar: {
-    backgroundColor: '#03BB85',
-    padding: 10,
-    borderRadius: 5,
-    marginTop: 20,
+    height: 50,
+    width: '80%',
+    backgroundColor: '#32CD32',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 10,
+    borderRadius: 10,
   },
   botaoVoltar: {
-    backgroundColor: '#E84803',
-    padding: 10,
-    borderRadius: 5,
-    marginTop: 10,
+    height: 50,
+    width: '80%',
+    backgroundColor: '#00BFFF',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,
   },
   textoBotao: {
     color: 'white',
+    fontSize: 18,
     fontWeight: 'bold',
+  },
+  scrollViewContainer: {
+    flexGrow: 1,
   },
   botaoDicas: {
     position: 'absolute',
-    top: 50,
-    right: 10,
-    backgroundColor: '#FFA500',
+    top: 40,
+    right: 20,
     padding: 10,
+    backgroundColor: '#32CD32',
     borderRadius: 5,
-    margin: 10,
   },
   textoBotaoDicas: {
     color: 'white',
