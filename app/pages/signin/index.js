@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert } from "react-native";
 import * as Animatable from "react-native-animatable";
@@ -10,7 +10,9 @@ const logout = async () => {
 };
 
 export default function Signin() {
-  logout();
+  useEffect(() => {
+    logout();
+  })
 
   const navigation = useNavigation();
   const [email, setEmail] = useState("");
