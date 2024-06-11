@@ -4,11 +4,14 @@ import { FontAwesome } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import { getImagesByUserId, saveImagePaths } from '../../database/config';
 import { getObjectLocalStorage } from '../../services/localstorage';
+import { useNavigation } from 'expo-router';
 
 export default function Search() {
   const [images, setImages] = useState([null, null, null, null]);
   const [names, setNames] = useState(['Nome 1', 'Nome 2', 'Nome 3', 'Nome 4']);
   const [editingIndex, setEditingIndex] = useState(null);
+
+  const navigation = useNavigation();
 
   useEffect(() => {
     const fetchProjectImages = async () => {
@@ -100,7 +103,15 @@ export default function Search() {
     );
   };
 
-  const handleViewProject = (index) => {};
+  const handleViewProject = (index) => {
+    if (index === 3) {
+      Alert.alert("indisponível", "No momento essa funcionalidade não está disponível, tente novamente mais tarde")
+      return
+    }
+
+    const lugares = ["QuizCasa", "QuizCar", "QuizViagem"]
+    navigation.navigate(lugares[index]);
+  };
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>

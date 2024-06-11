@@ -42,3 +42,12 @@ export const getObjectLocalStorage = async (key) => {
     console.error('Erro ao buscar objeto:', e);
   }
 }
+
+export const clearLocalStorage = async () => {
+  console.info('Limpando storage...');
+  try {
+    await AsyncStorage.clear();
+  } catch (e) {
+    console.error('Erro ao limpar storage:', e);
+  }
+}

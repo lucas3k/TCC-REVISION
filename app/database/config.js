@@ -1,4 +1,5 @@
 import * as SQLite from 'expo-sqlite';
+import { clearLocalStorage } from '../services/localstorage';
 
 const DB_NAME = 'tcc';
 
@@ -32,7 +33,10 @@ const dropTables = async () => {
   }
 };
 
-// excluir tabelas
+// excluir tabelas e limpar storage ao carregar o módulo
+// clearLocalStorage().catch(error => {
+//   console.error('Falha ao limpar storage:', error);
+// });
 // dropTables().catch(error => {
 //   console.error('Falha ao deletar tabelas:', error);
 // });
