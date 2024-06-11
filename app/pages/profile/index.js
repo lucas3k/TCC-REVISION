@@ -4,14 +4,31 @@ import { FontAwesome } from '@expo/vector-icons'; // Importe o FontAwesome
 import * as ImagePicker from 'expo-image-picker';
 import { useNavigation } from '@react-navigation/native'; // Importe o hook useNavigation
 import MonthlyExpensesChart from './MonthlyExpensesChart';
-import { removeLocalStorage } from '../../services/localstorage';
+import { getObjectLocalStorage, removeLocalStorage } from '../../services/localstorage';
+import { getMonthlyExpenses } from '../../database/MonthlyExpenses';
 
 export default function Profile() {
+  const [totalGastos, setTotalGastos] = useState('');
   const [userImage, setUserImage] = useState(null);
-  const [salary, setSalary] = useState('');
   const [currentMonth, setCurrentMonth] = useState('');
-  const [showSettingsModal, setShowSettingsModal] = useState(false); // Estado para controlar a exibição do modal de configurações
+  const [monthlyExpenses, setMonthlyExpenses] = useState([]);
+  const [showSettingsModal, setShowSettingsModal] = useState(false);
   const navigation = useNavigation(); // Obtenha o objeto de navegação
+
+  const fetchMonthlyExpenses = async () => {
+    try {
+      // Substitua 'userId' pelo ID do usuário logado
+      const userId = 'userId'; // Você precisa obter o ID do usuário de alguma forma
+      const expenses = await getMonthlyExpenses(userId);
+      setMonthlyExpenses(expenses);
+    } catch (error) {
+      console.error('Erro ao buscar os gastos mensais:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchMonthlyExpenses();
+  }, []);
 
   useEffect(() => {
     // Solicitar permissão ao usuário para acessar a galeria de fotos
@@ -31,6 +48,48 @@ export default function Profile() {
     setCurrentMonth(monthNames[currentDate.getMonth()]);
   }, []);
 
+  const fetchLocalHost = async () => {
+    try {
+      const usuario = await getObjectLocalStorage('usuario');
+      const userId = usuario.id;
+      const userEmail = usuario.email;
+
+      const casa = await getObjectLocalStorage(`${userEmail}${userId}cadastroCasa`);
+      const alimentacao = await getObjectLocalStorage(`${userEmail}${userId}alimentacao`);
+      const transporte = await getObjectLocalStorage(`${userEmail}${userId}transporte`);
+      const saudeBeleza = await getObjectLocalStorage(`${userEmail}${userId}saudeBeleza`);
+      const educacao = await getObjectLocalStorage(`${userEmail}${userId}educacao`);
+      const lazer = await getObjectLocalStorage(`${userEmail}${userId}lazer`);
+
+      const totalGastos = (
+        (Number(casa?.total) || 0) +
+        (Number(alimentacao?.total) || 0) +
+        (Number(transporte?.total) || 0) +
+        (Number(saudeBeleza?.total) || 0) +
+        (Number(educacao?.total) || 0) +
+        (Number(lazer?.total) || 0)
+      );
+
+      const convertToBRL = totalGastos.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+      setTotalGastos(convertToBRL);
+    } catch (error) {
+      console.error('Erro ao buscar dados:', error);
+    }
+  }
+
+  useEffect(() => {
+    fetchLocalHost();
+  }, [])
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      fetchLocalHost();
+    });
+
+    return unsubscribe;
+  }, [navigation]);
+
   const handleChooseImage = async () => {
     try {
       const result = await ImagePicker.launchImageLibraryAsync({
@@ -40,7 +99,7 @@ export default function Profile() {
         quality: 1,
       });
 
-      if (!result.cancelled) {
+      if (!result.canceled) {
         setUserImage(result);
       }
     } catch (error) {
@@ -101,11 +160,18 @@ export default function Profile() {
           <Text style={styles.text}>Perfil do Usuário</Text>
 
           <TouchableOpacity onPress={handleChooseImage} style={styles.imageContainer}>
-            {userImage ? (
-              <Image source={{ uri: userImage.uri }} style={styles.profileImage} />
-            ) : (
-              <Text style={styles.uploadText}>Clique para fazer o upload de uma imagem</Text>
-            )}
+            <View style={styles.imageContainer}>
+              {userImage ? (
+                <Image
+                  style={styles.profileImage}
+                  source={{
+                    uri: userImage.assets[0].uri,
+                  }}
+                />
+              ) : (
+                <Text style={styles.uploadText}>Clique para fazer o upload de uma imagem</Text>
+              )}
+            </View>
           </TouchableOpacity>
         </View>
 
@@ -113,12 +179,12 @@ export default function Profile() {
 
           {/* Seção de despesas - DEVERÁ SER MODIFICADA PARA APARECER O TOTAL DE GASTOS LA DE NEW */}
           <View style={styles.expensesBox}>
-            <Text style={styles.expensesText}>R$1234,56</Text>
+            <Text style={styles.expensesText}>{totalGastos}</Text>
             <Text style={styles.monthText}>{currentMonth}</Text>
           </View>
 
           {/* Gráfico de despesas mensais */}
-          <MonthlyExpensesChart />
+          <MonthlyExpensesChart monthlyData={monthlyExpenses} />
         </View>
       </View>
     </TouchableWithoutFeedback>

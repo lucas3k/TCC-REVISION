@@ -1,11 +1,53 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { getObjectLocalStorage } from '../../services/localstorage';
 
 export default function Notification() {
-  const [totalGastos, setTotalGastos] = useState(0);
-  const [showInfo, setShowInfo] = useState(false);
+  const [totalGastos, setTotalGastos] = useState('');
   const navigation = useNavigation();
+
+  const fetchLocalHost = async () => {
+    try {
+      const usuario = await getObjectLocalStorage('usuario');
+      const userId = usuario.id;
+      const userEmail = usuario.email;
+
+      const casa = await getObjectLocalStorage(`${userEmail}${userId}cadastroCasa`);
+      const alimentacao = await getObjectLocalStorage(`${userEmail}${userId}alimentacao`);
+      const transporte = await getObjectLocalStorage(`${userEmail}${userId}transporte`);
+      const saudeBeleza = await getObjectLocalStorage(`${userEmail}${userId}saudeBeleza`);
+      const educacao = await getObjectLocalStorage(`${userEmail}${userId}educacao`);
+      const lazer = await getObjectLocalStorage(`${userEmail}${userId}lazer`);
+
+      const totalGastos = (
+        (Number(casa?.total) || 0) +
+        (Number(alimentacao?.total) || 0) +
+        (Number(transporte?.total) || 0) +
+        (Number(saudeBeleza?.total) || 0) +
+        (Number(educacao?.total) || 0) +
+        (Number(lazer?.total) || 0)
+      );
+
+      const convertToBRL = totalGastos.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+      setTotalGastos(convertToBRL);
+    } catch (error) {
+      console.error('Erro ao buscar dados:', error);
+    }
+  }
+
+  useEffect(() => {
+    fetchLocalHost();
+  }, [])
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      fetchLocalHost();
+    });
+
+    return unsubscribe;
+  }, [navigation]);
 
   const abrirCadastroCasa = () => {
     navigation.navigate('CadastroCasa');
@@ -79,7 +121,7 @@ export default function Notification() {
         <Text style={styles.dicasButtonText}>Dicas</Text>
       </TouchableOpacity>
 
-      <Text style={styles.contador}>Total de Gastos: R$ {totalGastos.toFixed(2)}</Text>
+      <Text style={styles.contador}>Total de Gastos: {totalGastos}</Text>
     </View>
   );
 }
