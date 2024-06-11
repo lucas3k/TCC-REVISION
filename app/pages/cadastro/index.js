@@ -51,7 +51,7 @@ export default function Cadastro() {
         return
       }
 
-      console.log('Usuário salvo com sucesso!', salvarUser);
+      console.info('Usuário salvo com sucesso!', salvarUser);
 
       // Salvar usuário no banco de dados
       navigation.navigate('Signin'); // Navegar para a tela de sucesso ou outra tela desejada após o cadastro

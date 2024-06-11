@@ -109,7 +109,7 @@ export default function QuizCasa() {
       [
         {
           text: 'OK',
-          onPress: () => console.log('Botão OK Pressionado'),
+
           style: 'cancel',
         },
       ],

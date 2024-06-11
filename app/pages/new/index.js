@@ -5,17 +5,17 @@ export default function New() {
   const navigation = useNavigation();
 
   const abrirQuizCasa = () => {
-    console.log('Lógica específica para o botão Quiz');
+    console.info('Lógica específica para o botão Quiz');
     navigation.navigate('QuizCasa');
   };
 
   const abrirQuizCar = () => {
-    console.log('Lógica específica para o botão Quiz');
+    console.info('Lógica específica para o botão Quiz');
     navigation.navigate('QuizCar');
   };
 
   const abrirQuizViagem = () => {
-    console.log('Lógica específica para o botão Quiz');
+    console.info('Lógica específica para o botão Quiz');
     navigation.navigate('QuizViagem');
   };
 
@@ -26,7 +26,6 @@ export default function New() {
       [
         {
           text: 'OK',
-          onPress: () => console.log('Botão OK Pressionado'),
           style: 'cancel',
         },
       ],

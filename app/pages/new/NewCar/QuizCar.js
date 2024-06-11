@@ -85,7 +85,6 @@ export default function QuizCar() {
       [
         {
           text: 'OK',
-          onPress: () => console.log('Botão OK Pressionado'),
           style: 'cancel',
         },
       ],

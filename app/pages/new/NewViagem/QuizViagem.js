@@ -94,7 +94,7 @@ export default function QuizViagem() {
       [
         {
           text: 'OK',
-          onPress: () => console.log('Botão OK Pressionado'),
+
           style: 'cancel',
         },
       ],

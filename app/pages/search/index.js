@@ -18,8 +18,6 @@ export default function Search() {
 
         const allImages = await getImagesByUserId(userId);
 
-        console.log(allImages)
-
         if (allImages.length) {
           const updatedImages = new Array(4).fill(null);
           const updatedNames = [...names];
@@ -95,7 +93,6 @@ export default function Search() {
       [
         {
           text: 'OK',
-          onPress: () => console.log('Dicas exibidas'),
           style: 'cancel',
         },
       ],
@@ -103,9 +100,7 @@ export default function Search() {
     );
   };
 
-  const handleViewProject = (index) => {
-    console.log(`Visualizando projeto ${index + 1}`);
-  };
+  const handleViewProject = (index) => {};
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>

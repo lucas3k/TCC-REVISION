@@ -80,7 +80,7 @@ export default function Notification() {
       [
         {
           text: 'OK',
-          onPress: () => console.log('Botão OK Pressionado'),
+
           style: 'cancel',
         },
       ],

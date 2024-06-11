@@ -5,7 +5,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { useNavigation } from '@react-navigation/native'; // Importe o hook useNavigation
 import MonthlyExpensesChart from './MonthlyExpensesChart';
 import { getObjectLocalStorage, removeLocalStorage } from '../../services/localstorage';
-import { getMonthlyExpenses } from '../../database/MonthlyExpenses';
+import { getMonthlyExpenses } from '../../database/monthlyExpenses';
 
 export default function Profile() {
   const [totalGastos, setTotalGastos] = useState('');
@@ -17,9 +17,9 @@ export default function Profile() {
 
   const fetchMonthlyExpenses = async () => {
     try {
-      // Substitua 'userId' pelo ID do usuário logado
-      const userId = 'userId'; // Você precisa obter o ID do usuário de alguma forma
-      const expenses = await getMonthlyExpenses(userId);
+      const usuario = await getObjectLocalStorage('usuario');
+      const expenses = await getMonthlyExpenses(usuario);
+
       setMonthlyExpenses(expenses);
     } catch (error) {
       console.error('Erro ao buscar os gastos mensais:', error);
@@ -114,7 +114,7 @@ export default function Profile() {
       [
         {
           text: 'OK',
-          onPress: () => console.log('Botão OK Pressionado'),
+
           style: 'cancel',
         },
       ],
