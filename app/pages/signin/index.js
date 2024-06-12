@@ -5,11 +5,12 @@ import * as Animatable from "react-native-animatable";
 import { getUserByEmail } from "../../database/config";
 import { removeLocalStorage, setObjectLocalStorage } from "../../services/localstorage";
 
-const logout = async () => {
-  await removeLocalStorage("usuario");
-};
 
 export default function Signin() {
+  const logout = async () => {
+    await removeLocalStorage("usuario");
+  };
+
   useEffect(() => {
     logout();
   })

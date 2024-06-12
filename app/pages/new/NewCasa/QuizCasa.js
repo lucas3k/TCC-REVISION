@@ -135,6 +135,7 @@ export default function QuizCasa() {
             value={areia}
             onChangeText={(text) => setAreia(text.replace(',', '.'))}
             keyboardType="numeric"
+            placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
@@ -142,6 +143,7 @@ export default function QuizCasa() {
             value={pedra}
             onChangeText={(text) => setPedra(text.replace(',', '.'))}
             keyboardType="numeric"
+            placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
@@ -149,6 +151,7 @@ export default function QuizCasa() {
             value={cimento}
             onChangeText={(text) => setCimento(text.replace(',', '.'))}
             keyboardType="numeric"
+            placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
@@ -156,6 +159,7 @@ export default function QuizCasa() {
             value={ferro}
             onChangeText={(text) => setFerro(text.replace(',', '.'))}
             keyboardType="numeric"
+            placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
@@ -163,6 +167,7 @@ export default function QuizCasa() {
             value={argamassa}
             onChangeText={(text) => setArgamassa(text.replace(',', '.'))}
             keyboardType="numeric"
+            placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
@@ -170,6 +175,7 @@ export default function QuizCasa() {
             value={tijolo}
             onChangeText={(text) => setTijolo(text.replace(',', '.'))}
             keyboardType="numeric"
+            placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
@@ -177,6 +183,7 @@ export default function QuizCasa() {
             value={madeira}
             onChangeText={(text) => setMadeira(text.replace(',', '.'))}
             keyboardType="numeric"
+            placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
@@ -184,6 +191,7 @@ export default function QuizCasa() {
             value={telha}
             onChangeText={(text) => setTelha(text.replace(',', '.'))}
             keyboardType="numeric"
+            placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
@@ -191,6 +199,7 @@ export default function QuizCasa() {
             value={vidro}
             onChangeText={(text) => setVidro(text.replace(',', '.'))}
             keyboardType="numeric"
+            placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
@@ -198,6 +207,7 @@ export default function QuizCasa() {
             value={luz}
             onChangeText={(text) => setLuz(text.replace(',', '.'))}
             keyboardType="numeric"
+            placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
@@ -205,6 +215,7 @@ export default function QuizCasa() {
             value={piso}
             onChangeText={(text) => setPiso(text.replace(',', '.'))}
             keyboardType="numeric"
+            placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
@@ -212,6 +223,7 @@ export default function QuizCasa() {
             value={acabamento}
             onChangeText={(text) => setAcabamento(text.replace(',', '.'))}
             keyboardType="numeric"
+            placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
@@ -219,6 +231,7 @@ export default function QuizCasa() {
             value={pintura}
             onChangeText={(text) => setPintura(text.replace(',', '.'))}
             keyboardType="numeric"
+            placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
@@ -226,6 +239,7 @@ export default function QuizCasa() {
             value={mao}
             onChangeText={(text) => setMao(text.replace(',', '.'))}
             keyboardType="numeric"
+            placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
@@ -233,6 +247,7 @@ export default function QuizCasa() {
             value={outro}
             onChangeText={(text) => setOutro(text.replace(',', '.'))}
             keyboardType="numeric"
+            placeholderTextColor="#888"
           />
 
           {/* Exibir o total de gastos */}

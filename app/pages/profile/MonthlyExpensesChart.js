@@ -3,15 +3,20 @@ import { View, StyleSheet } from 'react-native';
 import { BarChart } from 'react-native-chart-kit';
 
 const MonthlyExpensesChart = ({ monthlyData }) => {
-  const labels = [""];
-  const values = [""];
+  const labels = [];
+  const values = [];
 
   const categories = Object.keys(monthlyData);
 
-  categories.forEach((category) => {
-    labels.push(category);
-    values.push(monthlyData[category]);
-  });
+  if (categories.length) {
+    categories.forEach((category) => {
+      labels.push(category);
+      values.push(monthlyData[category]);
+    });
+  } else {
+    labels.push('Sem dados');
+    values.push(0);
+  }
 
   const numberLabels = 3 || labels.length;
 
