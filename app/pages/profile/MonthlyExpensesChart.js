@@ -3,27 +3,21 @@ import { View, StyleSheet } from 'react-native';
 import { BarChart } from 'react-native-chart-kit';
 
 const MonthlyExpensesChart = ({ monthlyData }) => {
-  const labels = [""];
-  const values = [""];
+  const processData = (data) => {
+    const categories = Object.keys(data);
+    const valuesSum = Object.values(data).reduce((acc, value) => acc + Number(value), 0);
 
-  const categories = Object.keys(monthlyData);
+    if (valuesSum === 0) {
+      return { labels: ['Sem despesas'], values: [0] };
+    }
 
-  if (categories.length) {
-    categories.forEach((category) => {
-      labels.push(category);
-      values.push(monthlyData[category]);
-    });
-  } else {
-    labels.push('Sem dados');
-    values.push(0);
-  }
+    const labels = categories.slice(0, 3);
+    const values = labels.map(label => data[label]);
 
-  const numberLabels = 3 || labels.length;
+    return { labels, values };
+  };
 
-  if (labels.length > numberLabels) {
-    labels.splice(numberLabels);
-    values.splice(numberLabels);
-  }
+  const { labels, values } = processData(monthlyData);
 
   const chartConfig = {
     backgroundGradientFrom: '#fff',
@@ -33,14 +27,14 @@ const MonthlyExpensesChart = ({ monthlyData }) => {
     style: {
       borderRadius: 16,
     },
-  }
+  };
 
   return (
     <View style={styles.container}>
       <BarChart
         data={{
           labels: labels,
-          datasets: [{data: values}],
+          datasets: [{ data: values }],
         }}
         width={315}
         height={200}

@@ -4,7 +4,7 @@ import { FontAwesome } from '@expo/vector-icons'; // Importe o FontAwesome
 import * as ImagePicker from 'expo-image-picker';
 import { useNavigation } from '@react-navigation/native'; // Importe o hook useNavigation
 import MonthlyExpensesChart from './MonthlyExpensesChart';
-import { getObjectLocalStorage, removeLocalStorage } from '../../services/localstorage';
+import { getObjectLocalStorage, removeLocalStorage, setObjectLocalStorage } from '../../services/localstorage';
 import { getMonthlyExpenses } from '../../database/monthlyExpenses';
 
 export default function Profile() {
@@ -72,6 +72,9 @@ export default function Profile() {
 
       const convertToBRL = totalGastos.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 
+      const img = await getObjectLocalStorage('userImage');
+
+      setUserImage(img);
       setTotalGastos(convertToBRL);
     } catch (error) {
       console.error('Erro ao buscar dados:', error);
@@ -101,6 +104,7 @@ export default function Profile() {
 
       if (!result.canceled) {
         setUserImage(result);
+        await setObjectLocalStorage('userImage', result);
       }
     } catch (error) {
       console.error('Erro ao escolher a imagem:', error);
