@@ -95,63 +95,63 @@ export default function CadastroCasa() {
             placeholder="Aluguel"
             value={aluguel}
             onChangeText={(text) => setAluguel(text)}
-            keyboardType="numeric"
+            keyboardType="numeric" placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
             placeholder="Água"
             value={agua}
             onChangeText={(text) => setAgua(text)}
-            keyboardType="numeric"
+            keyboardType="numeric" placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
             placeholder="Luz"
             value={luz}
             onChangeText={(text) => setLuz(text)}
-            keyboardType="numeric"
+            keyboardType="numeric" placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
             placeholder="Internet"
             value={internet}
             onChangeText={(text) => setInternet(text)}
-            keyboardType="numeric"
+            keyboardType="numeric" placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
             placeholder="Empréstimo ou Financiamento"
             value={emprestimo}
             onChangeText={(text) => setEmprestimo(text)}
-            keyboardType="numeric"
+            keyboardType="numeric" placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
             placeholder="Valor do Condomínio"
             value={condominio}
             onChangeText={(text) => setCondominio(text)}
-            keyboardType="numeric"
+            keyboardType="numeric" placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
             placeholder="Gás"
             value={gas}
             onChangeText={(text) => setGas(text)}
-            keyboardType="numeric"
+            keyboardType="numeric" placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
             placeholder="Manutenções"
             value={manutencoes}
             onChangeText={(text) => setManutencoes(text)}
-            keyboardType="numeric"
+            keyboardType="numeric" placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
             placeholder="IPTU"
             value={iptu}
             onChangeText={(text) => setIptu(text)}
-            keyboardType="numeric"
+            keyboardType="numeric" placeholderTextColor="#888"
           />
 
           {/* Exibir o total de gastos */}

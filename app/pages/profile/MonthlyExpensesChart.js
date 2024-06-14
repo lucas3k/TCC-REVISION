@@ -3,8 +3,8 @@ import { View, StyleSheet } from 'react-native';
 import { BarChart } from 'react-native-chart-kit';
 
 const MonthlyExpensesChart = ({ monthlyData }) => {
-  const labels = [];
-  const values = [];
+  const labels = [""];
+  const values = [""];
 
   const categories = Object.keys(monthlyData);
 

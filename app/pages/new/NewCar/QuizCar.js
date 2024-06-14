@@ -110,49 +110,49 @@ export default function QuizCar() {
             placeholder="Valor do Veiculo"
             value={valor}
             onChangeText={(text) => setValor(text)}
-            keyboardType="numeric"
+            keyboardType="numeric" placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
             placeholder="Seguro"
             value={seguro}
             onChangeText={(text) => setSeguro(text)}
-            keyboardType="numeric"
+            keyboardType="numeric" placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
             placeholder="Licença do Veiculo"
             value={licenca}
             onChangeText={(text) => setLicenca(text)}
-            keyboardType="numeric"
+            keyboardType="numeric" placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
             placeholder="Documentação e Taxas"
             value={documentos}
             onChangeText={(text) => setDocumentos(text)}
-            keyboardType="numeric"
+            keyboardType="numeric" placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
             placeholder="Manutenção Inicial"
             value={manutencao}
             onChangeText={(text) => setManutencao(text)}
-            keyboardType="numeric"
+            keyboardType="numeric" placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
             placeholder="Taxas do revendedor"
             value={taxa}
             onChangeText={(text) => setTaxa(text)}
-            keyboardType="numeric"
+            keyboardType="numeric" placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
             placeholder="Financiamento"
             value={financiamento}
             onChangeText={(text) => setFinanciamento(text)}
-            keyboardType="numeric"
+            keyboardType="numeric" placeholderTextColor="#888"
           />
 
           {/* Exibir o total de gastos */}

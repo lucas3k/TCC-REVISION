@@ -96,63 +96,63 @@ export default function CadastroLazer() {
             placeholder="Viagens"
             value={viagem}
             onChangeText={(text) => setViagem(text)}
-            keyboardType="numeric"
+            keyboardType="numeric" placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
             placeholder="Vestimentas"
             value={roupa}
             onChangeText={(text) => setRoupa(text)}
-            keyboardType="numeric"
+            keyboardType="numeric" placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
             placeholder="Cinema"
             value={cinema}
             onChangeText={(text) => setCinema(text)}
-            keyboardType="numeric"
+            keyboardType="numeric" placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
             placeholder="Shows"
             value={show}
             onChangeText={(text) => setShow(text)}
-            keyboardType="numeric"
+            keyboardType="numeric" placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
             placeholder="Festas"
             value={festa}
             onChangeText={(text) => setFesta(text)}
-            keyboardType="numeric"
+            keyboardType="numeric" placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
             placeholder="Presentes"
             value={presente}
             onChangeText={(text) => setPresente(text)}
-            keyboardType="numeric"
+            keyboardType="numeric" placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
             placeholder="Serviços de Streaming"
             value={streaming}
             onChangeText={(text) => setStreaming(text)}
-            keyboardType="numeric"
+            keyboardType="numeric" placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
             placeholder="Animais Domésticos"
             value={animais}
             onChangeText={(text) => setAnimais(text)}
-            keyboardType="numeric"
+            keyboardType="numeric" placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
             placeholder="Outros"
             value={outro}
             onChangeText={(text) => setOutro(text)}
-            keyboardType="numeric"
+            keyboardType="numeric" placeholderTextColor="#888"
           />
 
           {/* Exibir o total de gastos */}

@@ -90,49 +90,49 @@ export default function CadastrosaudeBeleza() {
             placeholder="Remédios"
             value={remedio}
             onChangeText={(text) => setRemedio(text)}
-            keyboardType="numeric"
+            keyboardType="numeric" placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
             placeholder="Plano de Saúde"
             value={plano}
             onChangeText={(text) => setPlano(text)}
-            keyboardType="numeric"
+            keyboardType="numeric" placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
             placeholder="Médicos e Psicólogos"
             value={medico}
             onChangeText={(text) => setMedico(text)}
-            keyboardType="numeric"
+            keyboardType="numeric" placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
             placeholder="Produtos de Higiene"
             value={higiene}
             onChangeText={(text) => setHigiene(text)}
-            keyboardType="numeric"
+            keyboardType="numeric" placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
             placeholder="Academia"
             value={academia}
             onChangeText={(text) => setAcademia(text)}
-            keyboardType="numeric"
+            keyboardType="numeric" placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
             placeholder="Salão de Beleza/Barbearia"
             value={salao}
             onChangeText={(text) => setSalao(text)}
-            keyboardType="numeric"
+            keyboardType="numeric" placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
             placeholder="Outros"
             value={outro}
             onChangeText={(text) => setOutro(text)}
-            keyboardType="numeric"
+            keyboardType="numeric" placeholderTextColor="#888"
           />
 
           {/* Exibir o total de gastos */}

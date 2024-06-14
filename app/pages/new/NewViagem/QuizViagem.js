@@ -119,70 +119,70 @@ export default function QuizViagem() {
             placeholder="Passagens"
             value={passagens}
             onChangeText={(text) => setPassagens(text.replace(',', '.'))}
-            keyboardType="numeric"
+            keyboardType="numeric" placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
             placeholder="Acomodações"
             value={acomodacao}
             onChangeText={(text) => setAcomodacao(text.replace(',', '.'))}
-            keyboardType="numeric"
+            keyboardType="numeric" placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
             placeholder="Alimentação"
             value={alimentacao}
             onChangeText={(text) => setAlimentacao(text.replace(',', '.'))}
-            keyboardType="numeric"
+            keyboardType="numeric" placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
             placeholder="Passeio"
             value={passeio}
             onChangeText={(text) => setPasseio(text.replace(',', '.'))}
-            keyboardType="numeric"
+            keyboardType="numeric" placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
             placeholder="Transporte"
             value={transporte}
             onChangeText={(text) => setTransporte(text.replace(',', '.'))}
-            keyboardType="numeric"
+            keyboardType="numeric" placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
             placeholder="Documentações"
             value={documentacao}
             onChangeText={(text) => setDocumentacao(text.replace(',', '.'))}
-            keyboardType="numeric"
+            keyboardType="numeric" placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
             placeholder="Seguro"
             value={seguro}
             onChangeText={(text) => setSeguro(text.replace(',', '.'))}
-            keyboardType="numeric"
+            keyboardType="numeric" placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
             placeholder="Emergências"
             value={emergencia}
             onChangeText={(text) => setEmergencia(text.replace(',', '.'))}
-            keyboardType="numeric"
+            keyboardType="numeric" placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
             placeholder="Compras"
             value={compras}
             onChangeText={(text) => setCompras(text.replace(',', '.'))}
-            keyboardType="numeric"
+            keyboardType="numeric" placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
             placeholder="Outros"
             value={outro}
             onChangeText={(text) => setOutro(text.replace(',', '.'))}
-            keyboardType="numeric"
+            keyboardType="numeric" placeholderTextColor="#888"
           />
 
           {/* Exibir o total de gastos */}

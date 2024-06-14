@@ -93,56 +93,56 @@ export default function CadastroTransporte() {
             placeholder="Transporte Público"
             value={transporteP}
             onChangeText={(text) => setTransporteP(text)}
-            keyboardType="numeric"
+            keyboardType="numeric" placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
             placeholder="Combustível"
             value={combustivel}
             onChangeText={(text) => setCombustivel(text)}
-            keyboardType="numeric"
+            keyboardType="numeric" placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
             placeholder="Estacionamento"
             value={estacionamento}
             onChangeText={(text) => setEstacionamento(text)}
-            keyboardType="numeric"
+            keyboardType="numeric" placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
             placeholder="Manutenções do Automóvel"
             value={manutencao}
             onChangeText={(text) => setManutencao(text)}
-            keyboardType="numeric"
+            keyboardType="numeric" placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
             placeholder="Seguro"
             value={seguro}
             onChangeText={(text) => setSeguro(text)}
-            keyboardType="numeric"
+            keyboardType="numeric" placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
             placeholder="IPVA"
             value={IPVA}
             onChangeText={(text) => setIPVA(text)}
-            keyboardType="numeric"
+            keyboardType="numeric" placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
             placeholder="Uber/ APP de transporte"
             value={uber}
             onChangeText={(text) => setUber(text)}
-            keyboardType="numeric"
+            keyboardType="numeric" placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
             placeholder="Outros"
             value={outros}
             onChangeText={(text) => setOutros(text)}
-            keyboardType="numeric"
+            keyboardType="numeric" placeholderTextColor="#888"
           />
 
           {/* Exibir o total de gastos */}

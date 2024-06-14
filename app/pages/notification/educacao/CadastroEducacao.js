@@ -81,28 +81,28 @@ export default function CadastroEducacao() {
             placeholder="Mensalidade"
             value={mensalidade}
             onChangeText={(text) => setMensalidade(text)}
-            keyboardType="numeric"
+            keyboardType="numeric" placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
             placeholder="Material Escolar"
             value={material}
             onChangeText={(text) => setMaterial(text)}
-            keyboardType="numeric"
+            keyboardType="numeric" placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
             placeholder="Cursos"
             value={curso}
             onChangeText={(text) => setCurso(text)}
-            keyboardType="numeric"
+            keyboardType="numeric" placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
             placeholder="Outros"
             value={outros}
             onChangeText={(text) => setOutros(text)}
-            keyboardType="numeric"
+            keyboardType="numeric" placeholderTextColor="#888"
           />
 
           {/* Exibir o total de gastos */}

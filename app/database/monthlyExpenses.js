@@ -16,12 +16,12 @@ export async function getMonthlyExpenses(user) {
     const lazer = await getObjectLocalStorage(`${usuario.email}${usuario.id}lazer`);
 
     return {
-      casa: casa.total || 0,
-      alimentacao: alimentacao.total || 0,
-      transporte: transporte.total || 0,
-      saudeBeleza: saudeBeleza.total || 0,
-      educacao: educacao.total || 0,
-      lazer: lazer.total || 0,
+      casa: casa?.total || 0,
+      alimentacao: alimentacao?.total || 0,
+      transporte: transporte?.total || 0,
+      saudeBeleza: saudeBeleza?.total || 0,
+      educacao: educacao?.total || 0,
+      lazer: lazer?.total || 0,
     };
   } catch (error) {
     console.error('Erro ao calcular os gastos mensais:', error);

@@ -79,21 +79,21 @@ export default function CadastroAlimentacao() {
             placeholder="Mercado"
             value={mercado}
             onChangeText={(text) => setMercado(text)}
-            keyboardType="numeric"
+            keyboardType="numeric" placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
             placeholder="Restaurante"
             value={restaurante}
             onChangeText={(text) => setRestaurante(text)}
-            keyboardType="numeric"
+            keyboardType="numeric" placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
             placeholder="Outros"
             value={outros}
             onChangeText={(text) => setOutros(text)}
-            keyboardType="numeric"
+            keyboardType="numeric" placeholderTextColor="#888"
           />
 
           {/* Exibir o total de gastos */}
