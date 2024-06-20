@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, ScrollView, Alert, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { removeLocalStorage, getObjectLocalStorage, setObjectLocalStorage } from '../../../services/localstorage';
+import { getObjectLocalStorage, removeLocalStorage, setObjectLocalStorage } from '../../../../services/localstorage';
 
-export default function QuizCasa() {
+export default function SearchCasa() {
   const [areia, setAreia] = useState('');
   const [pedra, setPedra] = useState('');
   const [cimento, setCimento] = useState('');
@@ -19,8 +19,66 @@ export default function QuizCasa() {
   const [pintura, setPintura] = useState('');
   const [mao, setMao] = useState('');
   const [outro, setOutro] = useState('');
+  const [limpo, setLimpo] = useState(false);
 
   const navigation = useNavigation();
+
+  const formatarValor = (valor) => {
+    return valor ? valor.toFixed(2).toString() : '';
+  }
+
+  useEffect(() => {
+    const fetchLocalHost = async () => {
+      try {
+        const usuario = await getObjectLocalStorage('usuario');
+        const userId = usuario.id;
+        const userEmail = usuario.email;
+        const allValues = await getObjectLocalStorage(`${userEmail}${userId}casa`);
+
+        if (allValues !== null) {
+          setAreia(formatarValor(allValues.areia));
+          setPedra(formatarValor(allValues.pedra));
+          setCimento(formatarValor(allValues.cimento));
+          setFerro(formatarValor(allValues.ferro));
+          setArgamassa(formatarValor(allValues.argamassa));
+          setTijolo(formatarValor(allValues.tijolo));
+          setMadeira(formatarValor(allValues.madeira));
+          setTelha(formatarValor(allValues.telha));
+          setVidro(formatarValor(allValues.vidro));
+          setLuz(formatarValor(allValues.luz));
+          setPiso(formatarValor(allValues.piso));
+          setAcabamento(formatarValor(allValues.acabamento));
+          setPintura(formatarValor(allValues.pintura));
+          setMao(formatarValor(allValues.mao));
+          setOutro(formatarValor(allValues.outro));
+        }
+      } catch (error) {
+        console.error('Erro ao buscar dados:', error);
+      }
+    };
+
+    if(limpo) {
+      // Limpa os estados quando limpo for true
+      setAreia('');
+      setPedra('');
+      setCimento('');
+      setFerro('');
+      setArgamassa('');
+      setTijolo('');
+      setMadeira('');
+      setTelha('');
+      setVidro('');
+      setLuz('');
+      setPiso('');
+      setAcabamento('');
+      setPintura('');
+      setMao('');
+      setOutro('');
+      setLimpo(false);
+    } else {
+      fetchLocalHost();
+    }
+  }, [limpo]);
 
   const salvarLocalHost = async (total) => {
     try {
@@ -73,13 +131,26 @@ export default function QuizCasa() {
       [
         {
           text: 'OK',
-
           style: 'cancel',
         },
       ],
       { cancelable: false }
     );
   };
+
+  const deletarItem = async () => {
+    try {
+      const usuario = await getObjectLocalStorage('usuario');
+      const userId = usuario.id;
+      const userEmail = usuario.email;
+
+      await removeLocalStorage(`${userEmail}${userId}casa`); // Corrigi para `casa` ao invés de `viagem`
+      Alert.alert('Orçamento excluído com sucesso!');
+      setLimpo(true);
+    } catch (error) {
+      console.error('Erro ao excluir dados:', error);
+    }
+  }
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -211,6 +282,11 @@ export default function QuizCasa() {
           <TouchableOpacity style={styles.botaoVoltar} onPress={() => navigation.goBack()}>
             <Text style={styles.textoBotao}>Voltar</Text>
           </TouchableOpacity>
+
+          {/* Botão excluir */}
+          <TouchableOpacity style={styles.botaoExcluir} onPress={() => deletarItem()}>
+            <Text style={styles.textoBotao}>Excluir</Text>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </TouchableWithoutFeedback>
@@ -218,6 +294,15 @@ export default function QuizCasa() {
 }
 
 const styles = StyleSheet.create({
+  botaoExcluir: {
+    height: 50,
+    width: '80%',
+    backgroundColor: '#FF0000',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,
+    marginTop: 10,
+  },
   container: {
     flex: 1,
     justifyContent: 'center',

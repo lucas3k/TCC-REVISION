@@ -109,7 +109,7 @@ export default function Search() {
       return
     }
 
-    const lugares = ["QuizCasa", "QuizCar", "QuizViagem"]
+    const lugares = ["SearchCasa", "SearchCar", "SearchViagem"]
     navigation.navigate(lugares[index]);
   };
 

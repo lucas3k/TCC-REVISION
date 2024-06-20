@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, ScrollView, Alert, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { getObjectLocalStorage, setObjectLocalStorage } from '../../../services/localstorage';
+import { removeLocalStorage, getObjectLocalStorage, setObjectLocalStorage } from '../../../services/localstorage';
 
 export default function QuizCar() {
   const [valor, setValor] = useState('');
@@ -13,35 +13,6 @@ export default function QuizCar() {
   const [financiamento, setFinanciamento] = useState('');
 
   const navigation = useNavigation();
-
-  const formatarValor = (valor) => {
-    return valor ? valor.toFixed(2).toString() : '';
-  }
-
-  useEffect(() => {
-    const fetchLocalHost = async () => {
-      try {
-        const usuario = await getObjectLocalStorage('usuario');
-        const userId = usuario.id;
-        const userEmail = usuario.email;
-        const allValues = await getObjectLocalStorage(`${userEmail}${userId}carro`);
-
-        if (allValues !== null) {
-          setValor(formatarValor(allValues.valor));
-          setSeguro(formatarValor(allValues.seguro));
-          setLicenca(formatarValor(allValues.licenca));
-          setDocumentos(formatarValor(allValues.documentos));
-          setManutencao(formatarValor(allValues.manutencao));
-          setTaxa(formatarValor(allValues.taxa));
-          setFinanciamento(formatarValor(allValues.financiamento));
-        }
-      } catch (error) {
-        console.error('Erro ao buscar dados:', error);
-      }
-    };
-
-    fetchLocalHost();
-  }, []);
 
   const salvarLocalHost = async (total) => {
     try {
@@ -60,6 +31,7 @@ export default function QuizCar() {
         total
       };
 
+      await removeLocalStorage(`${userEmail}${userId}carro`);
       await setObjectLocalStorage(`${userEmail}${userId}carro`, gastos);
     } catch (error) {
       console.error('Erro ao salvar dados:', error);

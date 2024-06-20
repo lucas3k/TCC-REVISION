@@ -1,45 +1,106 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { BarChart } from 'react-native-chart-kit';
+import moment from 'moment';
+import { setStringLocalStorage, getStringLocalStorage } from '../../services/localstorage';
 
-const MonthlyExpensesChart = ({ monthlyData }) => {
-  const processData = (data) => {
-    const categories = Object.keys(data);
-    const valuesSum = Object.values(data).reduce((acc, value) => acc + Number(value), 0);
+const MonthlyExpensesChart = ({ valorTotalMesAtual }) => {
+  const [valorAtual, setValorAtual] = useState(0);
+  const [mesAtual, setMesAtual] = useState(moment().format('MM/YYYY'));
+  const [dadosGrafico, setDadosGrafico] = useState({ labels: [], data: [] });
 
-    if (valuesSum === 0) {
-      return { labels: ['Sem despesas'], values: [0] };
+  useEffect(() => {
+    const filtrarValor = (value) => {
+      // se o valor for menor que mil não tirar o ponto dos centavos
+      if (value.indexOf(",") === -1) {
+        return Number(value.replace("R$", "").replace(",", "."))
+      }
+
+      return Number(value.replace("R$", "").replace(".", "").replace(",", "."))
+    };
+
+    const valor = filtrarValor(valorTotalMesAtual);
+
+    if (!isNaN(valor)) {
+      setValorAtual(valor);
     }
+  }, [valorTotalMesAtual]);
 
-    const labels = categories.slice(0, 3);
-    const values = labels.map(label => data[label]);
+  useEffect(() => {
+    const salvar = async () => {
+      const totalMesesJSON = await getStringLocalStorage('totalMeses');
+      const totalMeses = totalMesesJSON ? JSON.parse(totalMesesJSON) : [];
 
-    return { labels, values };
-  };
+      const mesAtualFormatado = moment().format('MM/YYYY');
 
-  const { labels, values } = processData(monthlyData);
+      const indexMesAtual = totalMeses.findIndex((mes) => mes.mes === mesAtualFormatado);
 
-  const chartConfig = {
-    backgroundGradientFrom: '#fff',
-    backgroundGradientTo: '#fff',
-    decimalPlaces: 0,
-    color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-    style: {
-      borderRadius: 16,
-    },
+      if (indexMesAtual !== -1) {
+        totalMeses[indexMesAtual].total = valorAtual;
+      } else {
+        totalMeses.push({ mes: mesAtualFormatado, total: valorAtual });
+      }
+
+      await setStringLocalStorage('totalMeses', JSON.stringify(totalMeses));
+      atualizarDadosGrafico(totalMeses);
+    };
+
+    salvar();
+  }, [valorAtual, mesAtual]);
+
+  useEffect(() => {
+    const verificarMes = async () => {
+      const mesAtualFormatado = moment().format('MM/YYYY');
+      setMesAtual(mesAtualFormatado);
+
+      const totalMesesJSON = await getStringLocalStorage('totalMeses');
+      const totalMeses = totalMesesJSON ? JSON.parse(totalMesesJSON) : [];
+
+      const indexMesAtual = totalMeses.findIndex((mes) => mes.mes === mesAtualFormatado);
+
+      if (indexMesAtual === -1) {
+        totalMeses.push({ mes: mesAtualFormatado, total: 0 });
+        await setStringLocalStorage('totalMeses', JSON.stringify(totalMeses));
+        setValorAtual(0);
+      } else {
+        setValorAtual(totalMeses[indexMesAtual].total);
+      }
+
+      atualizarDadosGrafico(totalMeses);
+    };
+
+    verificarMes();
+  }, []);
+
+  const atualizarDadosGrafico = (totalMeses) => {
+    const labels = totalMeses.map((mes) => mes.mes);
+    const data = totalMeses.map((mes) => mes.total);
+    setDadosGrafico({ labels, data });
   };
 
   return (
     <View style={styles.container}>
       <BarChart
         data={{
-          labels: labels,
-          datasets: [{ data: values }],
+          labels: dadosGrafico.labels,
+          datasets: [
+            {
+              data: dadosGrafico.data,
+            },
+          ],
         }}
-        width={315}
+        width={300}
         height={200}
         yAxisLabel="R$"
-        chartConfig={chartConfig}
+        chartConfig={{
+          backgroundGradientFrom: '#fff',
+          backgroundGradientTo: '#fff',
+          decimalPlaces: 2,
+          color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+          style: {
+            borderRadius: 16,
+          },
+        }}
       />
     </View>
   );

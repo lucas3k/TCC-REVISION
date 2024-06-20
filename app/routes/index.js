@@ -6,7 +6,7 @@ import Welcome from '../pages/welcome';
 import Signin from '../pages/signin';
 import Cadastro from '../pages/cadastro';
 
-// //Pagina de dentro
+//Pagina de dentro
 import Home from '../pages/home';
 import New from '../pages/new';
 import Notification from '../pages/notification';
@@ -14,7 +14,7 @@ import Profile from '../pages/profile';
 import Search from '../pages/search';
 import ButtonNew from '../components/ButtonNew';
 
-// //Aqui faz a parte do Notification
+//Aqui faz a parte do Notification
 import CadastroCasa from '../pages/notification/casa';
 import CadastroAlimentacao from '../pages/notification/alimentacao';
 import CadastroTransporte from '../pages/notification/transporte';
@@ -22,10 +22,15 @@ import CadastrosaudeBeleza from '../pages/notification/saudeBeleza';
 import CadastroEducacao from '../pages/notification/educacao';
 import CadastroLazer from '../pages/notification/lazer';
 
-// //aqui faz a parte do NEW
+//aqui faz a parte do NEW
+import QuizCar from '../pages/new/NewCar';
 import QuizCasa from '../pages/new/NewCasa';
 import QuizViagem from '../pages/new/NewViagem';
-import QuizCar from '../pages/new/NewCar';
+
+//aqui faz o search projects
+import SearchCar from '../pages/search/News/SearchCar/SearchCar';
+import SearchCasa from '../pages/search/News/SearchCasa/SearchCasa';
+import SearchViagem from '../pages/search/News/SearchViagem/SearchViagem';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -46,6 +51,9 @@ function MainStack() {
       <Stack.Screen name="QuizCasa" component={QuizCasa} options={{ headerShown: false }} />
       <Stack.Screen name="QuizViagem" component={QuizViagem} options={{ headerShown: false }} />
       <Stack.Screen name="QuizCar" component={QuizCar} options={{ headerShown: false }} />
+      <Stack.Screen name="SearchCar" component={SearchCar} options={{ headerShown: false }} />
+      <Stack.Screen name="SearchCasa" component={SearchCasa} options={{ headerShown: false }} />
+      <Stack.Screen name="SearchViagem" component={SearchViagem} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
 }

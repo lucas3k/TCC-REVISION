@@ -1,21 +1,60 @@
 import { useEffect, useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, ScrollView, Alert, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { removeLocalStorage, getObjectLocalStorage, setObjectLocalStorage } from '../../../services/localstorage';
+import { getObjectLocalStorage, removeLocalStorage, setObjectLocalStorage } from '../../../../services/localstorage';
 
-export default function QuizViagem() {
-  const [passagens, setPassagens] = useState('');
-  const [acomodacao, setAcomodacao] = useState('');
-  const [alimentacao, setAlimentacao] = useState('');
-  const [passeio, setPasseio] = useState('');
-  const [transporte, setTransporte] = useState('');
-  const [documentacao, setDocumentacao] = useState('');
+export default function SearchCar() {
+  const [valor, setValor] = useState('');
   const [seguro, setSeguro] = useState('');
-  const [emergencia, setEmergencia] = useState('');
-  const [compras, setCompras] = useState('');
-  const [outro, setOutro] = useState('');
+  const [licenca, setLicenca] = useState('');
+  const [documentos, setDocumentos] = useState('');
+  const [manutencao, setManutencao] = useState('');
+  const [taxa, setTaxa] = useState('');
+  const [financiamento, setFinanciamento] = useState('');
+  const [limpo, setLimpo] = useState(false);
 
   const navigation = useNavigation();
+
+  const formatarValor = (valor) => {
+    return valor ? valor.toFixed(2).toString() : '';
+  }
+
+  useEffect(() => {
+    const fetchLocalHost = async () => {
+      try {
+        const usuario = await getObjectLocalStorage('usuario');
+        const userId = usuario.id;
+        const userEmail = usuario.email;
+        const allValues = await getObjectLocalStorage(`${userEmail}${userId}carro`);
+
+        if (allValues !== null) {
+          setValor(formatarValor(allValues.valor));
+          setSeguro(formatarValor(allValues.seguro));
+          setLicenca(formatarValor(allValues.licenca));
+          setDocumentos(formatarValor(allValues.documentos));
+          setManutencao(formatarValor(allValues.manutencao));
+          setTaxa(formatarValor(allValues.taxa));
+          setFinanciamento(formatarValor(allValues.financiamento));
+        }
+      } catch (error) {
+        console.error('Erro ao buscar dados:', error);
+      }
+    };
+
+    if (limpo) {
+      // Limpa os estados quando limpo for true
+      setValor('');
+      setSeguro('');
+      setLicenca('');
+      setDocumentos('');
+      setManutencao('');
+      setTaxa('');
+      setFinanciamento('');
+      setLimpo(false);
+    } else {
+      fetchLocalHost();
+    }
+  }, [limpo]);
 
   const salvarLocalHost = async (total) => {
     try {
@@ -24,21 +63,18 @@ export default function QuizViagem() {
       const userEmail = usuario.email;
 
       const gastos = {
-        passagens: parseFloat(passagens.replace(',', '.')) || "",
-        acomodacao: parseFloat(acomodacao.replace(',', '.')) || "",
-        alimentacao: parseFloat(alimentacao.replace(',', '.')) || "",
-        passeio: parseFloat(passeio.replace(',', '.')) || "",
-        transporte: parseFloat(transporte.replace(',', '.')) || "",
-        documentacao: parseFloat(documentacao.replace(',', '.')) || "",
+        valor: parseFloat(valor.replace(',', '.')) || "",
         seguro: parseFloat(seguro.replace(',', '.')) || "",
-        emergencia: parseFloat(emergencia.replace(',', '.')) || "",
-        compras: parseFloat(compras.replace(',', '.')) || "",
-        outro: parseFloat(outro.replace(',', '.')) || "",
+        licenca: parseFloat(licenca.replace(',', '.')) || "",
+        documentos: parseFloat(documentos.replace(',', '.')) || "",
+        manutencao: parseFloat(manutencao.replace(',', '.')) || "",
+        taxa: parseFloat(taxa.replace(',', '.')) || "",
+        financiamento: parseFloat(financiamento.replace(',', '.')) || "",
         total
       };
 
-      await removeLocalStorage(`${userEmail}${userId}viagem`);
-      await setObjectLocalStorage(`${userEmail}${userId}viagem`, gastos);
+      await removeLocalStorage(`${userEmail}${userId}carro`);
+      await setObjectLocalStorage(`${userEmail}${userId}carro`, gastos);
     } catch (error) {
       console.error('Erro ao salvar dados:', error);
     }
@@ -51,7 +87,7 @@ export default function QuizViagem() {
   };
 
   const calcularTotal = () => {
-    const valores = [passagens, acomodacao, alimentacao, passeio, transporte, documentacao, seguro, emergencia, compras, outro];
+    const valores = [valor, seguro, licenca, documentos, manutencao, taxa, financiamento];
     const total = valores.reduce((acc, valor) => acc + (parseFloat(valor.replace(',', '.')) || 0), 0);
     return total.toFixed(2);
   };
@@ -59,16 +95,29 @@ export default function QuizViagem() {
   const exibirDicas = () => {
     Alert.alert(
       'Dicas',
-      'Destino e Duração: Escolha para onde quer ir e por quanto tempo, considerando clima, atrações e custo de vida.- Orçamento: Estabeleça um limite realista para gastos em passagens, hospedagem, alimentação, transporte e atividades.-Passagens e Hospedagem: Reserve passagens com antecedência para obter melhores preços e encontre acomodações que se encaixem no seu orçamento e preferências.-Itinerário: Liste as atrações que deseja visitar, considerando localização, custo e tempo necessário.-Seguro de Viagem: Proteja-se com um seguro que cubra despesas médicas, cancelamentos e emergências.-Documentos: Certifique-se de ter todos os documentos necessários, como passaporte, visto e carteira de vacinação.-Bagagem: Faça uma lista dos itens essenciais e organize suas malas com antecedência.-Transporte Local: Pesquise opções de transporte no destino e planeje seu deslocamento do aeroporto para o hotel e entre as atrações.-Contingências: Tenha um plano para lidar com imprevistos, como atrasos ou emergências médicas, e mantenha contato com pessoas em casa.',
+      'Antes de começar a procurar um veículo, determine quanto você pode pagar. Considere não apenas o preço do carro ou moto, mas também os custos de seguro, manutenção, combustível e possíveis reparos.',
       [
         {
           text: 'OK',
-
           style: 'cancel',
         },
       ],
       { cancelable: false }
     );
+  };
+
+  const deletarItem = async () => {
+    try {
+      const usuario = await getObjectLocalStorage('usuario');
+      const userId = usuario.id;
+      const userEmail = usuario.email;
+
+      await removeLocalStorage(`${userEmail}${userId}carro`);
+      Alert.alert('Orçamento excluído com sucesso!');
+      setLimpo(true);
+    } catch (error) {
+      console.error('Erro ao excluir dados:', error);
+    }
   };
 
   return (
@@ -81,76 +130,56 @@ export default function QuizViagem() {
             <Text style={styles.textoBotaoDicas}>Dicas</Text>
           </TouchableOpacity>
 
-          <Text style={styles.titulo}>Orçamento de uma Nova Viagem</Text>
+          <Text style={styles.titulo}>Orçamento de Veículo</Text>
+
           {/* Campos de entrada para os gastos */}
           <TextInput
             style={styles.input}
-            placeholder="Passagens"
-            value={passagens}
-            onChangeText={(text) => setPassagens(text.replace(',', '.'))}
-            keyboardType="numeric" placeholderTextColor="#888"
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Acomodações"
-            value={acomodacao}
-            onChangeText={(text) => setAcomodacao(text.replace(',', '.'))}
-            keyboardType="numeric" placeholderTextColor="#888"
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Alimentação"
-            value={alimentacao}
-            onChangeText={(text) => setAlimentacao(text.replace(',', '.'))}
-            keyboardType="numeric" placeholderTextColor="#888"
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Passeio"
-            value={passeio}
-            onChangeText={(text) => setPasseio(text.replace(',', '.'))}
-            keyboardType="numeric" placeholderTextColor="#888"
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Transporte"
-            value={transporte}
-            onChangeText={(text) => setTransporte(text.replace(',', '.'))}
-            keyboardType="numeric" placeholderTextColor="#888"
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Documentações"
-            value={documentacao}
-            onChangeText={(text) => setDocumentacao(text.replace(',', '.'))}
+            placeholder="Valor do Veículo"
+            value={valor}
+            onChangeText={(text) => setValor(text)}
             keyboardType="numeric" placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
             placeholder="Seguro"
             value={seguro}
-            onChangeText={(text) => setSeguro(text.replace(',', '.'))}
+            onChangeText={(text) => setSeguro(text)}
             keyboardType="numeric" placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
-            placeholder="Emergências"
-            value={emergencia}
-            onChangeText={(text) => setEmergencia(text.replace(',', '.'))}
+            placeholder="Licença do Veículo"
+            value={licenca}
+            onChangeText={(text) => setLicenca(text)}
             keyboardType="numeric" placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
-            placeholder="Compras"
-            value={compras}
-            onChangeText={(text) => setCompras(text.replace(',', '.'))}
+            placeholder="Documentação e Taxas"
+            value={documentos}
+            onChangeText={(text) => setDocumentos(text)}
             keyboardType="numeric" placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
-            placeholder="Outros"
-            value={outro}
-            onChangeText={(text) => setOutro(text.replace(',', '.'))}
+            placeholder="Manutenção Inicial"
+            value={manutencao}
+            onChangeText={(text) => setManutencao(text)}
+            keyboardType="numeric" placeholderTextColor="#888"
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Taxas do Revendedor"
+            value={taxa}
+            onChangeText={(text) => setTaxa(text)}
+            keyboardType="numeric" placeholderTextColor="#888"
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Financiamento"
+            value={financiamento}
+            onChangeText={(text) => setFinanciamento(text)}
             keyboardType="numeric" placeholderTextColor="#888"
           />
 
@@ -165,6 +194,11 @@ export default function QuizViagem() {
           {/* Botão para voltar */}
           <TouchableOpacity style={styles.botaoVoltar} onPress={() => navigation.goBack()}>
             <Text style={styles.textoBotao}>Voltar</Text>
+          </TouchableOpacity>
+
+          {/* Botão para excluir */}
+          <TouchableOpacity style={styles.botaoExcluir} onPress={deletarItem}>
+            <Text style={styles.textoBotao}>Excluir</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -237,5 +271,14 @@ const styles = StyleSheet.create({
   textoBotaoDicas: {
     color: 'white',
     fontWeight: 'bold',
+  },
+  botaoExcluir: {
+    height: 50,
+    width: '80%',
+    backgroundColor: '#FF0000',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,
+    marginTop: 10,
   },
 });

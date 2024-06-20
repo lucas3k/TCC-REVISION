@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, ScrollView, Alert, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { removeLocalStorage, getObjectLocalStorage, setObjectLocalStorage } from '../../../services/localstorage';
+import { getObjectLocalStorage, removeLocalStorage, setObjectLocalStorage } from '../../../../services/localstorage';
 
-export default function QuizViagem() {
+export default function SearchViagem() {
   const [passagens, setPassagens] = useState('');
   const [acomodacao, setAcomodacao] = useState('');
   const [alimentacao, setAlimentacao] = useState('');
@@ -14,8 +14,56 @@ export default function QuizViagem() {
   const [emergencia, setEmergencia] = useState('');
   const [compras, setCompras] = useState('');
   const [outro, setOutro] = useState('');
+  const [limpo, setLimpo] = useState(false);
 
   const navigation = useNavigation();
+
+  const formatarValor = (valor) => {
+    return valor ? valor.toFixed(2).toString() : '';
+  }
+
+  useEffect(() => {
+    const fetchLocalHost = async () => {
+      try {
+        const usuario = await getObjectLocalStorage('usuario');
+        const userId = usuario.id;
+        const userEmail = usuario.email;
+        const allValues = await getObjectLocalStorage(`${userEmail}${userId}viagem`);
+
+        if (allValues !== null) {
+          setPassagens(formatarValor(allValues.passagens));
+          setAcomodacao(formatarValor(allValues.acomodacao));
+          setAlimentacao(formatarValor(allValues.alimentacao));
+          setPasseio(formatarValor(allValues.passeio));
+          setTransporte(formatarValor(allValues.transporte));
+          setDocumentacao(formatarValor(allValues.documentacao));
+          setSeguro(formatarValor(allValues.seguro));
+          setEmergencia(formatarValor(allValues.emergencia));
+          setCompras(formatarValor(allValues.compras));
+          setOutro(formatarValor(allValues.outro));
+        }
+      } catch (error) {
+        console.error('Erro ao buscar dados:', error);
+      }
+    };
+
+    if (limpo) {
+      // Limpa os estados quando limpo for true
+      setPassagens('');
+      setAcomodacao('');
+      setAlimentacao('');
+      setPasseio('');
+      setTransporte('');
+      setDocumentacao('');
+      setSeguro('');
+      setEmergencia('');
+      setCompras('');
+      setOutro('');
+      setLimpo(false);
+    } else {
+      fetchLocalHost();
+    }
+  }, [limpo]);
 
   const salvarLocalHost = async (total) => {
     try {
@@ -63,13 +111,26 @@ export default function QuizViagem() {
       [
         {
           text: 'OK',
-
           style: 'cancel',
         },
       ],
       { cancelable: false }
     );
   };
+
+  const deletarItem = async () => {
+    try {
+      const usuario = await getObjectLocalStorage('usuario');
+      const userId = usuario.id;
+      const userEmail = usuario.email;
+
+      await removeLocalStorage(`${userEmail}${userId}viagem`);
+      Alert.alert('Orçamento excluído com sucesso!');
+      setLimpo(true);
+    } catch (error) {
+      console.error('Erro ao excluir dados:', error);
+    }
+  }
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -82,75 +143,76 @@ export default function QuizViagem() {
           </TouchableOpacity>
 
           <Text style={styles.titulo}>Orçamento de uma Nova Viagem</Text>
+
           {/* Campos de entrada para os gastos */}
           <TextInput
             style={styles.input}
             placeholder="Passagens"
             value={passagens}
-            onChangeText={(text) => setPassagens(text.replace(',', '.'))}
+            onChangeText={(text) => setPassagens(text)}
             keyboardType="numeric" placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
             placeholder="Acomodações"
             value={acomodacao}
-            onChangeText={(text) => setAcomodacao(text.replace(',', '.'))}
+            onChangeText={(text) => setAcomodacao(text)}
             keyboardType="numeric" placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
             placeholder="Alimentação"
             value={alimentacao}
-            onChangeText={(text) => setAlimentacao(text.replace(',', '.'))}
+            onChangeText={(text) => setAlimentacao(text)}
             keyboardType="numeric" placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
             placeholder="Passeio"
             value={passeio}
-            onChangeText={(text) => setPasseio(text.replace(',', '.'))}
+            onChangeText={(text) => setPasseio(text)}
             keyboardType="numeric" placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
             placeholder="Transporte"
             value={transporte}
-            onChangeText={(text) => setTransporte(text.replace(',', '.'))}
+            onChangeText={(text) => setTransporte(text)}
             keyboardType="numeric" placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
             placeholder="Documentações"
             value={documentacao}
-            onChangeText={(text) => setDocumentacao(text.replace(',', '.'))}
+            onChangeText={(text) => setDocumentacao(text)}
             keyboardType="numeric" placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
             placeholder="Seguro"
             value={seguro}
-            onChangeText={(text) => setSeguro(text.replace(',', '.'))}
+            onChangeText={(text) => setSeguro(text)}
             keyboardType="numeric" placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
             placeholder="Emergências"
             value={emergencia}
-            onChangeText={(text) => setEmergencia(text.replace(',', '.'))}
+            onChangeText={(text) => setEmergencia(text)}
             keyboardType="numeric" placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
             placeholder="Compras"
             value={compras}
-            onChangeText={(text) => setCompras(text.replace(',', '.'))}
+            onChangeText={(text) => setCompras(text)}
             keyboardType="numeric" placeholderTextColor="#888"
           />
           <TextInput
             style={styles.input}
             placeholder="Outros"
             value={outro}
-            onChangeText={(text) => setOutro(text.replace(',', '.'))}
+            onChangeText={(text) => setOutro(text)}
             keyboardType="numeric" placeholderTextColor="#888"
           />
 
@@ -165,6 +227,11 @@ export default function QuizViagem() {
           {/* Botão para voltar */}
           <TouchableOpacity style={styles.botaoVoltar} onPress={() => navigation.goBack()}>
             <Text style={styles.textoBotao}>Voltar</Text>
+          </TouchableOpacity>
+
+          {/* botão excluir */}
+          <TouchableOpacity style={styles.botaoExcluir} onPress={() => deletarItem()}>
+            <Text style={styles.textoBotao}>Excluir</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -217,6 +284,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 10,
+  },
+  botaoExcluir: {
+    height: 50,
+    width: '80%',
+    backgroundColor: '#FF0000',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,
+    marginTop: 10,
   },
   textoBotao: {
     color: 'white',

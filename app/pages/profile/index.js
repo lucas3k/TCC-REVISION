@@ -5,37 +5,20 @@ import * as ImagePicker from 'expo-image-picker';
 import { useNavigation } from '@react-navigation/native'; // Importe o hook useNavigation
 import MonthlyExpensesChart from './MonthlyExpensesChart';
 import { getObjectLocalStorage, removeLocalStorage, setObjectLocalStorage } from '../../services/localstorage';
-import { getMonthlyExpenses } from '../../database/monthlyExpenses';
 
 export default function Profile() {
-  const [totalGastos, setTotalGastos] = useState('');
   const [userImage, setUserImage] = useState(null);
+  const [totalGastos, setTotalGastos] = useState('');
   const [currentMonth, setCurrentMonth] = useState('');
-  const [monthlyExpenses, setMonthlyExpenses] = useState([]);
-  const [showSettingsModal, setShowSettingsModal] = useState(false);
+  const [showSettingsModal, setShowSettingsModal] = useState(false); // Estado para controlar a exibição do modal de configurações
   const navigation = useNavigation(); // Obtenha o objeto de navegação
-
-  const fetchMonthlyExpenses = async () => {
-    try {
-      const usuario = await getObjectLocalStorage('usuario');
-      const expenses = await getMonthlyExpenses(usuario);
-
-      setMonthlyExpenses(expenses);
-    } catch (error) {
-      console.error('Erro ao buscar os gastos mensais:', error);
-    }
-  };
-
-  useEffect(() => {
-    fetchMonthlyExpenses();
-  }, []);
 
   useEffect(() => {
     // Solicitar permissão ao usuário para acessar a galeria de fotos
     (async () => {
       const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
       if (status !== 'granted') {
-        alert('Desculpe, precisamos da permissão da câmera para fazer isso funcionar!');
+        Alert.alert('Desculpe', 'Precisamos da permissão da câmera para fazer isso funcionar!');
       }
     })();
 
@@ -47,6 +30,44 @@ export default function Profile() {
     const currentDate = new Date();
     setCurrentMonth(monthNames[currentDate.getMonth()]);
   }, []);
+
+  const handleChooseImage = async () => {
+    try {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
+
+      if (!result.canceled) {
+        setUserImage(result);
+        await setObjectLocalStorage('userImage', result);
+      }
+    } catch (error) {
+      console.error('Erro ao escolher a imagem:', error);
+    }
+  };
+
+  const exibirDicas = () => {
+    Alert.alert(
+      'Dicas',
+      'Aqui voce terá acesso a um balanceamento anual dos seus gastos',
+      [
+        {
+          text: 'OK',
+          onPress: () => console.log('Botão OK Pressionado'),
+          style: 'cancel',
+        },
+      ],
+      { cancelable: false }
+    );
+  };
+
+  const handleSair = () => {
+    navigation.navigate('Welcome');
+    removeLocalStorage('usuario');
+  };
 
   const fetchLocalHost = async () => {
     try {
@@ -92,45 +113,6 @@ export default function Profile() {
 
     return unsubscribe;
   }, [navigation]);
-
-  const handleChooseImage = async () => {
-    try {
-      const result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        allowsEditing: true,
-        aspect: [4, 3],
-        quality: 1,
-      });
-
-      if (!result.canceled) {
-        setUserImage(result);
-        await setObjectLocalStorage('userImage', result);
-      }
-    } catch (error) {
-      console.error('Erro ao escolher a imagem:', error);
-    }
-  };
-
-  const exibirDicas = () => {
-    Alert.alert(
-      'Dicas',
-      'Aqui voce terá acesso a um balanceamento anual dos seus gastos',
-      [
-        {
-          text: 'OK',
-
-          style: 'cancel',
-        },
-      ],
-      { cancelable: false }
-    );
-  };
-
-  const handleSair = () => {
-    // Navegue para a tela de login
-    navigation.navigate('Welcome');
-    removeLocalStorage('usuario'); // Remova o usuário logado do armazenamento local
-  };
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -188,7 +170,7 @@ export default function Profile() {
           </View>
 
           {/* Gráfico de despesas mensais */}
-          <MonthlyExpensesChart monthlyData={monthlyExpenses} />
+          <MonthlyExpensesChart valorTotalMesAtual={totalGastos} />
         </View>
       </View>
     </TouchableWithoutFeedback>
